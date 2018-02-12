@@ -16,7 +16,7 @@ module "asg_hello-world" {
 
   # Auto scaling group
   asg_name                  = "asg_hello-world"
-  vpc_zone_identifier = ["${ element(module.vpc_demo_us-east-2.subnet_pub_ids, 0) }"]
+  vpc_zone_identifier       = ["${ element(module.vpc_demo_us-east-2.subnet_pub_ids, 0) }"]
   health_check_type         = "EC2"
   min_size                  = 0
   max_size                  = "${ var.instance_number }"
@@ -32,6 +32,7 @@ module "asg_hello-world" {
   image_id        = "${ data.aws_ami.coreos_ami.id }"
   instance_type   = "t2.micro"
   security_groups = ["${ aws_security_group.sg_linux.id }", "${ aws_security_group.sg_ingress_http-https_any.id }"]
+
   root_block_device = [
     {
       volume_size = "12"
