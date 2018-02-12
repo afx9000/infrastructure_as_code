@@ -1,0 +1,24 @@
+{
+  "ignition": {
+    "config": {},
+    "timeouts": {},
+    "version": "2.1.0"
+  },
+  "networkd": {},
+  "passwd": {},
+  "storage": {},
+  "systemd": {
+    "units": [
+      {
+        "contents": "[Unit]\nDescription=Docker hello-world container\nRequires=docker.service\nAfter=docker.service\n\n[Service]\nExecStartPre=/usr/bin/docker pull hello-world\nExecStart=/usr/bin/docker run --name hello-world hello-world\nExecStop=/usr/bin/docker stop hello-world\nExecStopPost=/usr/bin/docker rm hello-world\nRestart=on-failure\nRestartSec=15s\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
+        "name": "hello.service"
+      },
+      {
+        "contents": "[Unit]\nDescription=Docker hello-world web container\nRequires=docker.service\nAfter=docker.service\n\n[Service]\nExecStartPre=/usr/bin/docker pull infrastructureascode/hello-world\nExecStart=/usr/bin/docker run --name hello-world-web -p 80:8080 infrastructureascode/hello-world\nExecStop=/usr/bin/docker stop hello-world-web\nExecStopPost=/usr/bin/docker rm hello-world-web\nRestart=on-failure\nRestartSec=15s\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
+        "name": "hello-web.service"
+      }
+    ]
+  }
+}

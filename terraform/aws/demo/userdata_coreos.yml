@@ -1,0 +1,41 @@
+# Using config transpiler to transform CoreOS userdata from YAML to JSON
+# `ct -in-file userdata_coreos.yml -pretty -out-file userdata_coreos.json`
+systemd:
+  units:
+    - name: hello.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Docker hello-world container
+        Requires=docker.service
+        After=docker.service
+
+        [Service]
+        ExecStartPre=/usr/bin/docker pull hello-world
+        ExecStart=/usr/bin/docker run --name hello-world hello-world
+        ExecStop=/usr/bin/docker stop hello-world
+        ExecStopPost=/usr/bin/docker rm hello-world
+        Restart=on-failure
+        RestartSec=15s
+
+        [Install]
+        WantedBy=multi-user.target
+        
+    - name: hello-web.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Docker hello-world web container
+        Requires=docker.service
+        After=docker.service
+
+        [Service]
+        ExecStartPre=/usr/bin/docker pull infrastructureascode/hello-world
+        ExecStart=/usr/bin/docker run --name hello-world-web -p 80:8080 infrastructureascode/hello-world
+        ExecStop=/usr/bin/docker stop hello-world-web
+        ExecStopPost=/usr/bin/docker rm hello-world-web
+        Restart=on-failure
+        RestartSec=15s
+
+        [Install]
+        WantedBy=multi-user.target
