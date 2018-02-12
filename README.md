@@ -10,6 +10,9 @@ export AWS_DEFAULT_REGION="us-east-2"
 ```
 
 ## Tools
-The only tool needed to run this is `terraform`.
+The only tools needed to provision the infrastructure are `terraform` and `bash`.
 
 
+## Provisioning
+To satisfy the need to provision the infrastructure in a single command, I have included the script `provision.sh`.
+Simply run `./provision.sh` in this directory once you have confirmed your aws keys work correctly.
